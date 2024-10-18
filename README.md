@@ -1,110 +1,79 @@
-# Aplicacion_Web
+# Proyecto de Aplicación Web de Torneos de Videojuegos
 
-from django.db import models
-from django.utils import timezone
+## Descripción
+Este proyecto es una aplicación web diseñada para gestionar torneos de videojuegos, donde los usuarios pueden registrarse, participar en torneos y seguir su progreso a través de clasificaciones y perfiles de jugador.
 
-class Usuario(models.Model):
-    nombre = models.CharField(max_length=200)
-    correo = models.EmailField(max_length=200)
-    clave_de_acceso = models.CharField(max_length=200)
-    fecha_registro = models.DateTimeField(blank=True, null=True)
-    
-    def __str__(self):
-        return self.nombre
+## Modelos
 
-class PerfilDeJugador(models.Model):
-    usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
-    puntos = models.IntegerField(default=0, blank=False)
-    nivel = models.IntegerField(default=0, blank=False)
-    ranking = models.IntegerField(default=0, blank=False)
-    avatar = models.URLField(max_length=200)
+### 1. Usuario
+- **nombre**: `CharField` (max_length=200) - Nombre del usuario.
+- **correo**: `EmailField` (max_length=200) - Correo electrónico del usuario.
+- **clave_de_acceso**: `CharField` (max_length=200) - Clave de acceso del usuario.
+- **fecha_registro**: `DateTimeField` - Fecha y hora de registro del usuario.
 
-class Torneo(models.Model):
-    nombre = models.CharField(max_length=200)
-    descripcion = models.TextField()
-    categoria = models.CharField(max_length=100)
-    duracion = models.DurationField()
-    fecha_inicio = models.DateField(default=timezone.now)
-    
-    def __str__(self):
-        return self.nombre
+### 2. PerfilDeJugador
+- **usuario**: `OneToOneField` (Usuario) - Relación uno a uno con el modelo Usuario.
+- **puntos**: `IntegerField` - Puntos acumulados por el jugador.
+- **nivel**: `IntegerField` - Nivel del jugador.
+- **ranking**: `IntegerField` - Ranking del jugador en la clasificación.
 
-class Consola(models.Model):
-    nombre = models.CharField(max_length=200)
-    marca = models.CharField(max_length=100)
-    tipo = models.CharField(max_length=100)
-    precio = models.DecimalField(max_digits=10, decimal_places=2)
-    
-    def __str__(self):
-        return self.nombre
+### 3. Equipo
+- **nombre**: `CharField` (max_length=200) - Nombre del equipo.
+- **logotipo**: `URLField` (max_length=200) - URL del logotipo del equipo.
+- **fecha_ingreso**: `DateField` - Fecha de ingreso del equipo.
+- **puntos_contribuidos**: `IntegerField` - Puntos que el equipo ha contribuido.
 
-class Juego(models.Model):
-    torneo = models.ForeignKey(Torneo, on_delete=models.CASCADE)
-    nombre = models.CharField(max_length=200)
-    genero = models.CharField(max_length=50)
-    consola = models.ForeignKey(Consola, on_delete=models.CASCADE)
-    descripcion = models.TextField()
-    
-    def __str__(self):
-        return self.nombre
+### 4. Participante
+- **usuario**: `OneToOneField` (Usuario) - Relación uno a uno con el modelo Usuario.
+- **puntos_obtenidos**: `IntegerField` - Puntos obtenidos por el participante.
+- **posicion_final**: `IntegerField` - Posición final en el torneo.
+- **fecha_inscripcion**: `DateField` - Fecha de inscripción al torneo.
 
-class Participante(models.Model):
-    puntos_obtenidos = models.IntegerField(default=0, blank=False)
-    posicion_final = models.IntegerField(default=0, blank=False)
-    fecha_inscripcion = models.DateField(default=timezone.now)
-    tiempo_jugado = models.FloatField()
+### 5. Torneo
+- **nombre**: `CharField` (max_length=200) - Nombre del torneo.
+- **descripcion**: `TextField` - Descripción del torneo.
+- **categoria**: `CharField` (max_length=100) - Categoría del torneo.
+- **duracion**: `DurationField` - Duración del torneo.
 
-class Espectador(models.Model):
-    usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)  # Cambiado a OneToOneField
-    nivel_interes = models.IntegerField(default=0, blank=False)
-    comentarios = models.TextField()
-    frecuencia_visitas = models.IntegerField()
-    suscripcion = models.BooleanField(default=False)
-    
-    def __str__(self):
-        return self.usuario.nombre
+### 6. Consola
+- **nombre**: `CharField` (max_length=200) - Nombre de la consola.
+- **marca**: `CharField` (max_length=100) - Marca de la consola.
+- **tipo**: `CharField` (max_length=100) - Tipo de consola.
+- **precio**: `DecimalField` (max_digits=10, decimal_places=2) - Precio de la consola.
 
-class Equipo(models.Model):
-    nombre = models.CharField(max_length=200)
-    logotipo = models.URLField(max_length=200, blank=True, null=True)
-    fecha_ingreso = models.DateField(default=timezone.now)
-    puntos_contribuidos = models.IntegerField(default=0, blank=False)
-    
-    def __str__(self):
-        return self.nombre
+### 7. Juego
+- **torneo**: `ForeignKey` (Torneo) - Relación muchos a uno con el modelo Torneo.
+- **nombre**: `CharField` (max_length=200) - Nombre del juego.
+- **genero**: `CharField` (max_length=50) - Género del juego.
+- **id_consola**: `ForeignKey` (Consola) - Relación muchos a uno con el modelo Consola.
 
-class Clasificacion(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    ranking = models.IntegerField(default=0, blank=False)
-    puntos = models.IntegerField(default=0, blank=False)
-    torneos_ganados = models.IntegerField(default=0, blank=False)
+### 8. Espectador
+- **usuario**: `OneToOneField` (Usuario) - Relación uno a uno con el modelo Usuario.
+- **nivel_interes**: `IntegerField` - Nivel de interés del espectador.
+- **comentarios**: `TextField` - Comentarios del espectador.
+- **frecuencia_visitas**: `IntegerField` - Frecuencia de visitas al sitio.
 
-class ParticipanteEquipo(models.Model):
-    participante = models.ForeignKey(Participante, on_delete=models.CASCADE)
-    equipo = models.ForeignKey(Equipo, on_delete=models.CASCADE)
-    rol = models.CharField(max_length=100)
-    fecha_ingreso = models.DateField(default=timezone.now)
-    puntos_contribuidos = models.IntegerField(default=0, blank=False)
-    tiempo_jugado = models.FloatField(default=0.0)
+### 9. Clasificacion
+- **usuario**: `OneToOneField` (Usuario) - Relación uno a uno con el modelo Usuario.
+- **ranking**: `IntegerField` - Ranking del usuario.
+- **puntos**: `IntegerField` - Puntos acumulados por el usuario.
+- **torneos_ganados**: `IntegerField` - Cantidad de torneos ganados.
 
-class TorneoJuego(models.Model):
-    torneo = models.ForeignKey(Torneo, on_delete=models.CASCADE)
-    juego = models.ForeignKey(Juego, on_delete=models.CASCADE)
-    puntos = models.IntegerField(default=0, blank=False)
-    fecha_participacion = models.DateField(default=timezone.now)
-    estado = models.CharField(max_length=50, choices=[
-        ('activo', 'Activo'),
-        ('completado', 'Completado'),
-        ('pendiente', 'Pendiente'),
-    ], default='activo')
+### 10. ParticipanteEquipo
+- **participante**: `ForeignKey` (Participante) - Relación muchos a uno con el modelo Participante.
+- **equipo**: `ForeignKey` (Equipo) - Relación muchos a uno con el modelo Equipo.
+- **rol**: `CharField` (max_length=100) - Rol del participante en el equipo.
+- **fecha_ingreso**: `DateField` - Fecha de ingreso al equipo.
 
-    # Atributos adicionales para la relación intermedia
-    comentarios = models.TextField(blank=True, null=True)
-    tiempo_jugado = models.FloatField(default=0.0)
+## Modelo Entidad-Relación
+![Modelo Entidad-Relación](ruta/a/tu/imagen.png)
 
-class TorneoParticipante(models.Model):
-    torneo = models.ForeignKey(Torneo, on_delete=models.CASCADE)
-    participante = models.ForeignKey(Participante, on_delete=models.CASCADE)
-    fecha_inscripcion = models.DateField(default=timezone.now)
-    puntos_obtenidos = models.IntegerField(default=0, blank=False)
-    posicion_final = models.IntegerField(default=0, blank=False)
+## Requisitos Cumplidos
+- Se han definido 10 modelos con las relaciones solicitadas.
+- Cada modelo tiene al menos 4 campos.
+- Se han utilizado 10 tipos de parámetros distintos entre todos los atributos.
+- Se ha creado un backup de los datos con fixtures.
+- No se han subido archivos innecesarios a Git.
+
+## Conclusión
+Este proyecto permite la gestión de torneos de videojuegos, brindando una experiencia completa a los usuarios, desde su registro hasta la participación en torneos y seguimiento de clasificaciones.

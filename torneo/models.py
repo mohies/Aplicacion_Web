@@ -70,7 +70,7 @@ class Juego(models.Model):
 
 class Espectador(models.Model):
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
-    nivel_interés=models.IntegerField(default=0,blank=False)
+    nivel_interes=models.IntegerField(default=0,blank=False)
     comentarios=models.TextField()
     frecuencia_visitas=models.IntegerField()
     suscripcion=models.BooleanField(default=False)

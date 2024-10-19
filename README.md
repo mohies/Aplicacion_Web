@@ -68,12 +68,3 @@ Este proyecto es una aplicación web diseñada para gestionar torneos de videoju
 ## Modelo Entidad-Relación
 ![Modelo Entidad-Relación](img/Modelo_Entidad_Relacion.drawio.png)
 
-## Requisitos Cumplidos
-- Se han definido 10 modelos con las relaciones solicitadas.
-- Cada modelo tiene al menos 4 campos.
-- Se han utilizado 10 tipos de parámetros distintos entre todos los atributos.
-- Se ha creado un backup de los datos con fixtures.
-- No se han subido archivos innecesarios a Git.
-
-## Conclusión
-Este proyecto permite la gestión de torneos de videojuegos, brindando una experiencia completa a los usuarios, desde su registro hasta la participación en torneos y seguimiento de clasificaciones.

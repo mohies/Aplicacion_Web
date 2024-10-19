@@ -66,7 +66,7 @@ Este proyecto es una aplicación web diseñada para gestionar torneos de videoju
 - **fecha_ingreso**: `DateField` - Fecha de ingreso al equipo.
 
 ## Modelo Entidad-Relación
-![Modelo Entidad-Relación](ruta/a/tu/imagen.png)
+![Modelo Entidad-Relación](img/Modelo_Entidad_Relacion.drawio.png)
 
 ## Requisitos Cumplidos
 - Se han definido 10 modelos con las relaciones solicitadas.

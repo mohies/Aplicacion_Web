@@ -68,5 +68,5 @@ La aplicación será una plataforma donde los usuarios pueden organizar y partic
 - **fecha_ingreso**: `DateField` - Fecha de ingreso al equipo.
 
 ## Modelo Entidad-Relación
-![Modelo Entidad-Relación](img/Modelo_Entidad_Relacion.drawio.png)
+[Modelo Entidad-Relación](img/Modelo_Entidad_Relacion.drawio.png)
 
